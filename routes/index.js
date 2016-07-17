@@ -1,18 +1,15 @@
 var express = require('express');
-var Paper = require('../model/Paper');
 var Info = require('../model/Info');
 var Hooks = require('../model/Hooks');  // hook to minimize html page
 var router = express.Router();
 
 /* GET home page */
 router.get('/', Hooks.miniHTML, function(req, res) {
-    Paper.getWholeNum(function (err, result) {
-        if( err ) {
+    Info.getIndexInfo(function (err, num, date) {
+        if( err )
             res.render('error', {message: 'System error at start.'});
-        }
-        else {
-            res.render('index', {num: result});
-        }
+        else
+            res.render('index', {num: num, date: date});
     });
 });
 
@@ -59,7 +56,7 @@ router.get('/rank', Hooks.miniHTML, function(req, res) {
 
 /* GET all list (all button) */
 router.get('/all', Hooks.miniHTML, function(req, res) {
-    res.render('all', { page: 'all' });
+    res.render('all', { page: 'all'});
 });
 
 /* GET scholar page with url request parameters (scholar button) */

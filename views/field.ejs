@@ -17,34 +17,25 @@
     <script src="js/repository.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            // search field or sub field by id
+            // search field
             $("h3 a[id]").click(function () {
-                var para = "content=" + $(this).attr("id") + "&group=field";
+                start = 0;
+                ct_url = 'action/query';
+                ct_para = {start: start, step: step, group: 'field', content: $(this).attr("id")};
                 search_content = $(this).attr("id");
                 search_type = "field";
-                $("#wait").show();
                 $("#main_list").hide();
-                $.ajax({
-                    url: "action/query",
-                    type: "post",
-                    dataType: "json",
-                    data: para,
-                    success: showSearchResult
-                });
+                makeRequest();
             });
+            // search tag
             $("#tags a[id]").click(function () {
-                var para = "content=" + $(this).attr("id") + "&group=tag";
+                start = 0;
+                ct_url = 'action/query';
+                ct_para = {start: start, step: step, group: 'tag', content: $(this).attr("id")};
                 search_content = $(this).attr("id");
                 search_type = "tag";
-                $("#wait").show();
                 $("#main_list").hide();
-                $.ajax({
-                    url: "action/query",
-                    type: "post",
-                    dataType: "json",
-                    data: para,
-                    success: showSearchResult
-                });
+                makeRequest();
             });
         });
     </script>
@@ -128,7 +119,7 @@
                                 applied.</p>
                             <p><a id="Priority" class="label label-primary">Priority</a>&nbsp;&nbsp;
                                 The order of test suite is important.</p>
-                            <p><a id="Redcution" class="label label-primary">Redcution</a>&nbsp;&nbsp;
+                            <p><a id="Reduction" class="label label-primary">Reduction</a>&nbsp;&nbsp;
                                 The size of test suite is reduced without impacting some given metrics.</p>
                             <p><a id="Sequence CA" class="label label-primary">Sequence CA</a>&nbsp;&nbsp;
                                 The covering array to test the sequences of events.</p>
@@ -145,18 +136,10 @@
                     </div>
                 </div>
 
-                <!-- waiting -->
-                <div id="wait" style="display:none" class="row">
-                    <div class="col-md-12 text-center">
-                        <h1><i class="fa fa-spinner fa-pulse fa-lg"></i></h1><br>
-                        <h4><h4>keep calm and data is loading ...</h4></h4>
-                    </div>
-                </div>
-
                 <!-- result list -->
                 <%- include template/template_result.ejs %>
             </div>
-            <!-- span10 -->
+            <!-- /show -->
         </div>
     </div>
     <!-- /container -->
